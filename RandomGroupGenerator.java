@@ -5,7 +5,8 @@
  * Command-line parameters:
  * 
  * args[0]: the name of a file containing people who to be added to groups
- * args[1]: preferred number of people per group (default: 2)
+ * args[1]: the name of a file containing the GitHub Ids of those people
+ * args[2]: preferred number of people per group (default: 2)
  * 
  * @author Jim Teresco
  */
@@ -20,17 +21,17 @@ public class RandomGroupGenerator {
 
     public static void main(String args[]) {
         
-        // must have 1 or 2 command-line parameters
-        if (args.length < 1 || args.length > 2) {
-            System.err.println("Usage: java RandomGroupGenerator listfile [groupsize]");
+        // must have 2 or 3 command-line parameters
+        if (args.length < 2 || args.length > 3) {
+            System.err.println("Usage: java RandomGroupGenerator listfile idfile [groupsize]");
             System.exit(1);
         }
         
         // ensure valid group size
         int groupSize = 2;
-        if (args.length == 2) {
+        if (args.length == 3) {
             try {
-                groupSize = Integer.parseInt(args[1]);
+                groupSize = Integer.parseInt(args[2);
             }
             catch (NumberFormatException e) {
                 System.err.println("Group size must be an integer >= 2");
@@ -46,13 +47,16 @@ public class RandomGroupGenerator {
         
         // read list of students from the file
         Scanner s = null;
+        Scanner s2 = null;
         ArrayList<String> sList = new ArrayList<String>();
         try {
             s = new Scanner(new File(args[0]));
+            s2 = new Scanner(new File(args[1]));
             while (s.hasNextLine()) {
-                sList.add(s.nextLine().trim());
+                sList.add(s.nextLine().trim() + " (" + s2.nextLine().trim() + ")");
             }
             s.close();
+            s2.close();
         }
         catch (IOException e) {
             System.err.println(e);
