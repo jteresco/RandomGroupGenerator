@@ -31,7 +31,7 @@ public class RandomGroupGenerator {
         int groupSize = 2;
         if (args.length == 3) {
             try {
-                groupSize = Integer.parseInt(args[2);
+                groupSize = Integer.parseInt(args[2]);
             }
             catch (NumberFormatException e) {
                 System.err.println("Group size must be an integer >= 2");
