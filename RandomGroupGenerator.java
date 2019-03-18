@@ -23,7 +23,7 @@ public class RandomGroupGenerator {
         
         // must have 2 or 3 command-line parameters
         if (args.length < 2 || args.length > 3) {
-            System.err.println("Usage: java RandomGroupGenerator listfile idfile [groupsize]");
+            System.err.println("Usage: java RandomGroupGenerator listfile {idfile|-} [groupsize]");
             System.exit(1);
         }
         
@@ -51,12 +51,16 @@ public class RandomGroupGenerator {
         ArrayList<String> sList = new ArrayList<String>();
         try {
             s = new Scanner(new File(args[0]));
-            s2 = new Scanner(new File(args[1]));
+            if (!args[1].equals("-")) s2 = new Scanner(new File(args[1]));
             while (s.hasNextLine()) {
-                sList.add(s.nextLine().trim() + " (" + s2.nextLine().trim() + ")");
+		String entry = s.nextLine().trim();
+		if (s2 != null) {
+		    entry += " (" + s2.nextLine().trim() + ")";
+		}
+                sList.add(entry);
             }
             s.close();
-            s2.close();
+            if (s2 != null) s2.close();
         }
         catch (IOException e) {
             System.err.println(e);
